@@ -1,0 +1,11 @@
+# Ignore everything
+*
+
+# Except Python files
+!*.py
+
+# Except .gitignore
+!.gitignore
+
+# Except requirements.txt
+!requirements.txt
