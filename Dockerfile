@@ -14,5 +14,5 @@ WORKDIR /app
 USER appuser
 
 # Default command
-CMD ["sh"]
+CMD ["bash"]
 
