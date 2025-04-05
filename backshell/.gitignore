@@ -9,3 +9,4 @@
 
 # Except requirements.txt
 !requirements.txt
+!systemprompt.txt
