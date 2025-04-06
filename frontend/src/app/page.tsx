@@ -14,6 +14,7 @@ export default async function Home() {
   return (
     <main>
       <h1>Welcome, {session.user.name}!</h1>
+      {JSON.stringify(session.user)}
       <Link href="/app">Start</Link>
       <a href="/auth/logout">Log out</a>
     </main>
