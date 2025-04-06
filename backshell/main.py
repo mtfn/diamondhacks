@@ -46,8 +46,12 @@ def get_session(user_id):
    
     if user_id not in sessions:
         return jsonify({'message': 'No active session'}), 404
-    else:
-        return jsonify(sessions[user_id].log)
+    else: 
+        return jsonify(
+                    {'log': sessions[user_id].log,
+                        'correct': sessions[user_id].correct(),
+                    }
+                ), 200
 
 @app.route('/sessions/<user_id>', methods=['PUT'])
 def exec_session(user_id):
