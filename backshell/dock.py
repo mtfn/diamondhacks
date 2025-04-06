@@ -6,8 +6,8 @@ import os
 def new_runner(client):
     return client.containers.run('runner', detach=True, tty=True, user='appuser')
 
-def runner_exec(container, command):
-    return container.exec_run('bash -c "' + command + '"', demux=True, user='appuser')[1]
+def runner_exec(container, command, user='appuser', workdir='/home/appuser'):
+    return container.exec_run('bash -c "' + command + '"', demux=True, workdir=workdir)[1]
 
 def tar_directory_to_bytes(directory_path):
     byte_stream = io.BytesIO()

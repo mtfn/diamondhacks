@@ -10,6 +10,13 @@ app = Flask(__name__)
 # {user_id: [session]}
 sessions = {}
 
+@app.after_request
+def add_cors_headers(response):
+    response.headers['Access-Control-Allow-Origin'] = 'https://clash.cmov.dev'
+    response.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE, OPTIONS'
+    response.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization'
+    return response
+
 @app.route('/sessions/<user_id>', methods=['POST'])
 def create_session(user_id):  
 
