@@ -1,73 +1,99 @@
-import { auth0 } from "~/lib/auth0";
-import Terminal from "./terminal";
-import avatarImage from "./avatar.png";
+"use client";
 
-export default async function App() {
-  const session = await auth0.getSession();
+const challengeSets = [
+  {
+    title: "File System Basics",
+    description: "Learn essential commands for file and directory manipulation",
+    exercises: 10,
+    difficulty: "Beginner",
+    icon: "📁",
+    id: 0,
+  },
+  {
+    title: "Text Processing",
+    description: "Master grep, sed, awk and other text processing tools",
+    exercises: 12,
+    difficulty: "Intermediate",
+    icon: "📝",
+  },
+  {
+    title: "Process Management",
+    description: "Understand processes, jobs, and system monitoring",
+    exercises: 8,
+    difficulty: "Expert",
+    icon: "⚙️",
+  },
+  {
+    title: "Shell Scripting",
+    description: "Create powerful shell scripts and automate tasks",
+    exercises: 15,
+    difficulty: "Intermediate",
+    icon: "🔧",
+  },
+  {
+    title: "Network Tools",
+    description: "Learn networking commands and diagnostics",
+    exercises: 10,
+    difficulty: "Expert",
+    icon: "🌐",
+  },
+];
 
-  if (!session || !session.user) {
-    return (
-      <div className="h-full flex items-center justify-center">
-        <p className="text-lg">You are not logged in.</p>
-        <a href={"/"} className="btn btn-primary ml-4">
-          Back
-        </a>
-      </div>
-    );
-  }
-
+export default function ChallengeSelect() {
   return (
-    <div className="w-full h-full flex">
-      <div className="w-lg flex flex-col h-full">
-        <nav className="h-full m-1">
-          <li className="p-4 space-y-2">
-            <ul className="join-item p-2 btn btn-outline w-full btn-info">
-              First option
-            </ul>
-            <ul className="p-2 btn btn-outline w-full">Second Option</ul>
-          </li>
-        </nav>
-        <div className="border-1"></div>
-        <div className="h-full m-1">
-          <div className="chat chat-start">
-            <div className="chat-image avatar">
-              <div className="w-10 rounded-full">
-                <img alt="AI chat bubble" src={avatarImage.src} />
-              </div>
-            </div>
-            <div className="chat-bubble">
-              whats up chsdflkajsdlfjasldfj alsdkfjlaskjdflajsdf
-              lajsdfljasdflalsdkjf asdlfkjalsdf alsdkjf;lasdkjf
-              as;dlfkja;sldfjalsdkjf elkj falskdjf lakewj flkasjd flkasj flkej
-              alksdj flkej alksj dlfkjelka jsldkfja kejf eiu urieoaroiwerj at
-            </div>
-          </div>
-          <div className="chat chat-end">
-            <div className="chat-image avatar">
-              <div className="w-10 rounded-full">
-                <img alt="User chat bubble" src={session.user.picture} />
-              </div>
-            </div>
-            <div className="chat-bubble chat-bubble-info">
-              Calm down, Anakin.
-            </div>
-          </div>
-        </div>
+    <div className="container mx-auto px-4 py-8">
+      <div className="text-center mb-12">
+        <h1 className="text-4xl font-bold mb-4">Welcome to CLASH</h1>
+        <p className="text-xl">
+          Select a challenge set to start on your command line journey!
+        </p>
       </div>
-      <div className="w-full h-full m-1 border-l-2">
-        <Terminal
-          challenge={{ name: "test", desc: "test", id: 1 }}
-          session={[
-            { cmd: "pwd", stderr: "", stdout: "/root" },
-            {
-              cmd: "alskdjflkasjefljaelkfjalsdkfj aleskfjlasekjf asdflkjaelfjalsjdflekajsfd",
-              stdout:
-                "asdlfkjasldfk lkjasdflkjasdf lakjsdflkjasdflk lakwejflkjasdlfasdlfkjasldfk lkjasdflkjasdf lakjsdflkjasdflk lakwejflkjasdlfasdlfkjasldfk lkjasdflkjasdf lakjsdflkjasdflk lakwejflkjasdlf   asdlfkjasldfk lkjasdflkjasdf lakjsdflkjasdflk lakwejflkjasdlf ",
-              stderr: "asdkfjalsdkjf elkajsdfl asdlkfjelk sdlkfjslkejf",
-            },
-          ]}
-        />
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {challengeSets.map((set, index) => (
+          <div
+            key={index}
+            className="card bg-base-100 shadow-xl hover:shadow-2xl transition-shadow duration-300"
+          >
+            <div className="card-body">
+              <div className="text-4xl mb-4">{set.icon}</div>
+              <h2 className="card-title">{set.title}</h2>
+              <p className="text-gray-600">{set.description}</p>
+              <div className="flex justify-between items-center mt-4">
+                <div className={badgeByDifficulty(set.difficulty)}>
+                  {set.difficulty}
+                </div>
+                <div className="text-sm text-gray-500">
+                  {set.exercises} exercises
+                </div>
+              </div>
+              <div className="card-actions justify-end mt-4">
+                {set.id !== undefined ? (
+                  <a href={`/app/${set.id}`} className="btn btn-primary">
+                    Start Challenge
+                  </a>
+                ) : (
+                  <button disabled className="btn btn-primary">
+                    Start Challenge
+                  </button>
+                )}
+              </div>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );
+}
+
+function badgeByDifficulty(diff: string) {
+  if (diff === "Beginner") {
+    return "badge badge-success";
+  } else if (diff === "Intermediate") {
+    return "badge badge-warning";
+  } else if (diff === "Expert") {
+    return "badge badge-error";
+  } else {
+    return "badge badge-primary";
+  }
 }
