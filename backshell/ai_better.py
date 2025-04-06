@@ -7,9 +7,9 @@ with open('./api_key.txt', 'r') as f:
 
 client = genai.Client(api_key=api_key)
 
-system_prompt = ''
-with open("./systemprompt.txt", "r") as f:
-    system_prompt = f.read()
+# system_prompt = ''
+# with open("./systemprompt.txt", "r") as f:
+#     system_prompt = f.read()
 
 # Set temperature to 0.8 here:
 chat_config = generate_content_config = types.GenerateContentConfig(
@@ -37,16 +37,35 @@ Analyze the context of each one carefully. You do not need to include any of thi
     
     )
 
-# Pass the config object instead of an empty list
-chat = client.chats.create(model="gemini-2.0-flash", config=chat_config)
 
-response = chat.send_message('''cd /''', chat_config)
-print(response.text)
+# Initializes a client and returns a chat object
 
-response = chat.send_message('''ls -r /home
-gram''', chat_config)
-print(response.text)
+def init():
+    api_key = 'GEMINI_API_KEY'
+    with open('./api_key.txt', 'r') as f:
+        api_key = f.read().strip()
 
-for message in chat.get_history():
-    print(f'role - {message.role}', end=": ")
-    print(message.parts[0].text)
+    client = genai.Client(api_key=api_key)
+    
+    # Pass the config object instead of an empty list
+    chat = client.chats.create(model="gemini-2.0-flash", config=chat_config)
+    return chat
+
+# Send a message to the chat
+def send_message(message, chat):
+    response = chat.send_message(
+        message,
+        config=chat_config,
+    )
+    return response
+
+# response = chat.send_message('''cd /''', chat_config)
+# print(response.text)
+
+# response = chat.send_message('''ls -r /home
+# gram''', chat_config)
+# print(response.text)
+
+# for message in chat.get_history():
+#     print(f'role - {message.role}', end=": ")
+#     print(message.parts[0].text)
