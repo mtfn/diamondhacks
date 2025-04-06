@@ -1,0 +1,14 @@
+/home:
+[1;34mappuser[m
+
+/home/appuser:
+[1;34mBooks[m   [1;34mMovies[m  [1;34mMusic[m
+
+/home/appuser/Books:
+[0;0mOSTEP.pdf[m                       [0;0mThe_C_Programming_Language.pdf[m
+
+/home/appuser/Movies:
+[0;0mCSE29_SP25_LEC1.mp4[m  [0;0mPulp_Fictio1n.mp4[m    [0;0mTopGun.mp4[m
+
+/home/appuser/Music:
+[0;0mBlinding_Lights.mp3[m    [0;0mBohemian_Rhapsody.mp3[m  [0;0mHurry_Up_Tomorrow.mp3[m
