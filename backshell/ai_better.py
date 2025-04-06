@@ -1,16 +1,6 @@
 from google import genai
 from google.genai import types
 
-api_key = 'GEMINI_API_KEY'
-with open('./api_key.txt', 'r') as f:
-    api_key = f.read().strip()
-
-client = genai.Client(api_key=api_key)
-
-system_prompt = ''
-with open("./systemprompt.txt", "r") as f:
-    system_prompt = f.read()
-
 # Set temperature to 0.8 here:
 chat_config = generate_content_config = types.GenerateContentConfig(
         response_mime_type="application/json",
@@ -37,7 +27,14 @@ Analyze the context of each one carefully. You do not need to include any of thi
     
     )
 
-def init():
+def get_client():
+    api_key = 'GEMINI_API_KEY'
+    with open('./api_key.txt', 'r') as f:
+        api_key = f.read().strip()
+
+    return genai.Client(api_key=api_key)
+
+def init(client):
     # Pass the config object instead of an empty list
     chat = client.chats.create(model="gemini-2.0-flash", config=chat_config)
     return chat

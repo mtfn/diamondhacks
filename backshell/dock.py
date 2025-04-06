@@ -4,7 +4,7 @@ import io
 import os
 
 def new_runner(client):
-    return client.containers.run('runner', detach=True, tty=True, user='appuser')
+    return client.containers.run('alpine', detach=True, tty=True, user='appuser')
 
 def runner_exec(container, command, user='appuser', workdir='/home/appuser'):
     return container.exec_run('bash -c "' + command + '"', demux=True, workdir=workdir)[1]
@@ -28,4 +28,4 @@ def runner_put(container, local_path):
     container.put_archive('/home/appuser', tar_bytes)
 
 def runner_stop(container):
-    container.stop()
+    container.kill()
