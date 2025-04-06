@@ -67,7 +67,7 @@ export default function Terminal({ challenge }: { challenge?: Challenge }) {
   }
 
   return (
-    <label className="h-full block">
+    <label className="h-full block" htmlFor="cli">
       <div className="p-8">
         <div className="font-mono font-medium flex flex-col gap-1">
           <div className="mockup-code w-full text-lg">
@@ -148,6 +148,7 @@ export default function Terminal({ challenge }: { challenge?: Challenge }) {
 
             <pre data-prefix="$" className="text-white">
               <textarea
+                id="cli"
                 rows={1}
                 className="mt-1 box-border w-[90%] flex-grow"
                 spellCheck={false}
