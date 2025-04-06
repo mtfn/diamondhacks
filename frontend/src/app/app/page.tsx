@@ -2,12 +2,19 @@
 
 const challengeSets = [
   {
-    title: "File System Basics",
+    title: "The Essentials",
+    description: "Get started with the basics of command line usage",
+    exercises: 5,
+    difficulty: "Mixed",
+    icon: "🚀",
+    id: "essentials",
+  },
+  {
+    title: "File System",
     description: "Learn essential commands for file and directory manipulation",
     exercises: 10,
     difficulty: "Beginner",
     icon: "📁",
-    id: 0,
   },
   {
     title: "Text Processing",
@@ -69,12 +76,12 @@ export default function ChallengeSelect() {
               </div>
               <div className="card-actions justify-end mt-4">
                 {set.id !== undefined ? (
-                  <a href={`/app/${set.id}`} className="btn btn-primary">
-                    Start Challenge
+                  <a href={`/app/${set.id}/1`} className="btn btn-primary">
+                    Start Challenge Set
                   </a>
                 ) : (
                   <button disabled className="btn btn-primary">
-                    Start Challenge
+                    Coming Soon!
                   </button>
                 )}
               </div>

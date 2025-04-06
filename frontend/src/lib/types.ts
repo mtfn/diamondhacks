@@ -5,7 +5,7 @@ export interface ChallengeSet {
 }
 
 export interface Challenge {
-  desc: string;
+  description: string;
   id: number;
   name: string;
 }
@@ -14,4 +14,10 @@ export interface SessionEntry {
   cmd: string;
   stderr: string;
   stdout: string;
+}
+
+export interface ChatEntry {
+  role: 'user' | 'assistant';
+  message: string;
+  emoji?: string;
 }
