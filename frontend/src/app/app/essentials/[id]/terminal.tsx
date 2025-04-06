@@ -12,26 +12,31 @@ export default function Terminal({ challenge }: { challenge?: Challenge }) {
   const [session, setSession] = useState<SessionEntry[]>([]);
   const [active, setActive] = useState<boolean>(false);
   const [commandBackIdx, setCommandBackIdx] = useState<number>(0);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [correct, setCorrect] = useState<boolean>(false);
 
   useEffect(() => {
     if (!user || !user.sub) {
       return;
     }
     // fetch session once
-    fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/sessions/${user.sub}`)
+    fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/sessions/${user.sub}`, {
+      headers: {
+        "X-Pinggy-No-Screen": "true",
+      },
+    })
       .then((resp) => resp.json())
-      .then((data: SessionEntry[]) => {
+      .then((data: { log: SessionEntry[]; correct: boolean }) => {
         console.log(data);
-        if (!Array.isArray(data)) {
+
+        if (!Array.isArray(data.log)) {
           console.error("Invalid session data received:", data);
-          if (data["message"]) {
-            toast.error("Error loading session: " + data["message"]);
-          }
+          toast.error("Error loading session");
           setActive(false);
           setSession([]);
         }
         setActive(true);
-        setSession(data);
+        setSession(data.log);
       })
       .catch((err) => {
         toast.error("Failed to load session: " + err.message);
@@ -43,9 +48,6 @@ export default function Terminal({ challenge }: { challenge?: Challenge }) {
     return (
       <div className="h-full flex items-center justify-center">
         <p className="text-lg">You are not logged in.</p>
-        <a href={"/api/auth/login"} className="btn btn-primary ml-4">
-          Login
-        </a>
       </div>
     );
   }
@@ -72,10 +74,56 @@ export default function Terminal({ challenge }: { challenge?: Challenge }) {
             <details className="collapse border-base-300 border mb-4 -mt-8 bg-zinc-900">
               <summary className="collapse-title font-semibold">
                 {challenge.name}
+                {correct && (
+                  <span className="badge badge-success ml-2">Completed</span>
+                )}
+                {loading ? (
+                  <span className="float-right loading loading-bars loading-xl"></span>
+                ) : (
+                  <button
+                    className="btn btn-error mb-4 float-right btn-sm"
+                    onClick={async () => {
+                      setLoading(true);
+                      try {
+                        await fetch(
+                          `${process.env.NEXT_PUBLIC_API_BASE_URL}/sessions/${user.sub}`,
+                          {
+                            method: "DELETE",
+                            headers: {
+                              "X-Pinggy-No-Screen": "true",
+                            },
+                          }
+                        );
+
+                        await fetch(
+                          `${process.env.NEXT_PUBLIC_API_BASE_URL}/sessions/${user.sub}`,
+                          {
+                            method: "POST",
+                            headers: {
+                              "Content-Type": "application/json",
+                              "X-Pinggy-No-Screen": "true",
+                            },
+                            body: JSON.stringify({
+                              challenge_set_id: challenge.id,
+                            }),
+                          }
+                        );
+                      } finally {
+                        setLoading(false);
+                      }
+
+                      setSession([]); // Clear the session state
+                    }}
+                  >
+                    Reset Shell State
+                  </button>
+                )}
               </summary>
-              <div className="collapse-content text-sm">{challenge.description}</div>
+              <div className="collapse-content text-sm">
+                {challenge.description}
+              </div>
             </details>
-            <div className="max-h-[60vh] overflow-y-auto">
+            <div className="max-h-[50vh] lg:max-h-[60vh] xl:max-h-[70vh] overflow-y-auto">
               <ScrollableFeed forceScroll>
                 {session.map((entry, index) => (
                   <Fragment key={index}>
@@ -133,25 +181,36 @@ export default function Terminal({ challenge }: { challenge?: Challenge }) {
                   if (e.key === "Enter" && !e.shiftKey) {
                     e.preventDefault();
 
-                    fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/sessions/${user.sub}`, {
-                      method: "PUT",
-                      headers: {
-                        "Content-Type": "application/json",
-                      },
-                      body: JSON.stringify({
-                        command: (e.target as HTMLTextAreaElement).value.trim(),
-                      }),
-                    })
+                    fetch(
+                      `${process.env.NEXT_PUBLIC_API_BASE_URL}/sessions/${user.sub}`,
+                      {
+                        method: "PUT",
+                        headers: {
+                          "Content-Type": "application/json",
+                          "X-Pinggy-No-Screen": "true",
+                        },
+                        body: JSON.stringify({
+                          command: (
+                            e.target as HTMLTextAreaElement
+                          ).value.trim(),
+                        }),
+                      }
+                    )
                       .then((resp) => {
                         if (!resp.ok) {
                           throw new Error("Failed to send command");
                         }
-                        return resp.json() as Promise<SessionEntry[]>;
+                        return resp.json() as Promise<{
+                          log: SessionEntry[];
+                          correct: boolean;
+                        }>;
                       })
-                      .then((newSession: SessionEntry[]) => {
-                        setSession(newSession);
+                      .then((newData) => {
+                        setSession(newData.log);
+                        setCorrect(newData.correct);
                         (e.target as HTMLTextAreaElement).value = ""; // Clear input
                         (e.target as HTMLTextAreaElement).style.height = "auto"; // Reset height
+                        setCommandBackIdx(0);
                       })
                       .catch((err) => {
                         toast.error("Failed to send command: " + err.message);

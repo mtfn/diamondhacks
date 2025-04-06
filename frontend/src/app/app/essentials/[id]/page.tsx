@@ -31,6 +31,7 @@ export default async function App({
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        "X-Pinggy-No-Screen": "true",
       },
       body: JSON.stringify({ challenge_set_id: id }),
     }
@@ -67,47 +68,14 @@ export default async function App({
   }
 
   const challengesResp = await fetch(
-    `${process.env.NEXT_PUBLIC_API_BASE_URL}/challenges`
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/challenges`,
+    {
+      headers: {
+        "X-Pinggy-No-Screen": "true",
+      },
+    }
   );
-  // const challenges = await challengesResp.json() as Challenge[];
-  const challenges: Challenge[] = [
-    {
-      id: 1,
-      name: "Basic: ls recurse",
-      description:
-        "List the contents of the home directory recursively using the `ls` command. Optimal solution without `cd` is preferred but any solution that works is acceptable.",
-    },
-
-    {
-      id: 2,
-      name: "Basic: wildcard and redirect",
-      description:
-        "Print the contents of all the files in the current directory using a single command. Write the `stdout` to a file named `out.txt` and print it to the terminal at the same time.",
-    },
-
-    {
-      id: 3,
-      name: "Intermediate: 5 biggest data hogs",
-      description:
-        "Run `du` and get the 5 biggest data hogs in the user's home directory using piping, `sort` and `head`.",
-    },
-
-    {
-      id: 4,
-      name: "Intermediate: find and replace",
-      description:
-        "Replace all occurrences of `foo` with `bar` in `foo.txt` using `sed`.",
-    },
-
-    {
-      id: 5,
-      name: "Advanced: word count",
-      description:
-        "Count the number of words in `file.txt` *without* using `wc`. You can use any other command you like. Sort in decreasing order.",
-    },
-  ];
-
-  console.log("Challenges loaded:", challenges, challenges.find( (ch) => ch.id == id)); 
+  const challenges = (await challengesResp.json()) as Challenge[];
 
   return (
     <div className="w-full h-[94%] flex">
@@ -117,7 +85,7 @@ export default async function App({
         <Chat />
       </div>
       <div className="w-full h-full m-1 border-l-2">
-        <Terminal challenge={challenges.find((ch) => ch.id == id)} />
+        <Terminal challenge={challenges.find((ch) => ch.id === id)} />
       </div>
     </div>
   );

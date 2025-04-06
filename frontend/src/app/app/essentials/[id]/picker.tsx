@@ -25,9 +25,6 @@ export default function Picker({
     return (
       <div className="h-full flex items-center justify-center">
         <p className="text-lg">You are not logged in.</p>
-        <a href={"/api/auth/login"} className="btn btn-primary ml-4">
-          Login
-        </a>
       </div>
     );
   }
@@ -46,6 +43,9 @@ export default function Picker({
       `${process.env.NEXT_PUBLIC_API_BASE_URL}/sessions/${user.sub}`,
       {
         method: "DELETE",
+        headers: {
+          "X-Pinggy-No-Screen": "true",
+        }
       }
     ).catch(() => {
       // not deleting is fine
@@ -61,6 +61,7 @@ export default function Picker({
         }),
         headers: {
           "Content-Type": "application/json",
+          "X-Pinggy-No-Screen": "true",
         },
       }
     );
