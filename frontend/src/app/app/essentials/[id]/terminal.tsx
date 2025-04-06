@@ -108,6 +108,7 @@ export default function Terminal({ challenge }: { challenge?: Challenge }) {
                             }),
                           }
                         );
+                        setCorrect(false);
                       } finally {
                         setLoading(false);
                       }
