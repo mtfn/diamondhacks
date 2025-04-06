@@ -11,7 +11,7 @@ Run `du` and get the 5 biggest data hogs in the user's home directory using pipi
  `sort` and `head`.
 
 # Intermediate: find and replace
-Replace all occurrences of `foo` with `bar` in `file.txt` using `sed`.
+Replace all occurrences of `foo` with `bar` in `foo.txt` using `sed`.
 
 # Advanced: word count 
 Count the number of words in `file.txt` *without* using `wc`. You can
