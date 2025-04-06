@@ -12,11 +12,12 @@ with open("./systemprompt.txt", "r") as f:
 
 chat_config = genai.types.GenerateContentConfig(system_instruction=system_prompt)
 
-chat = client.chats.create(model="gemini-2.0-flash")
+chat = client.chats.create(model="gemini-2.0-flash", config=[])
 
-response = chat.send_message("I have 2 dogs in my house.")
+response = chat.send_message('''cd /''', chat_config)
 print(response.text)
-response = chat.send_message("How many paws are in my house?", chat_config)
+response = chat.send_message('''ls -r /home
+gram''', chat_config)
 
 print(response.text)
 
