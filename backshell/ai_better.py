@@ -37,16 +37,24 @@ Analyze the context of each one carefully. You do not need to include any of thi
     
     )
 
-# Pass the config object instead of an empty list
-chat = client.chats.create(model="gemini-2.0-flash", config=chat_config)
+def init():
+    # Pass the config object instead of an empty list
+    chat = client.chats.create(model="gemini-2.0-flash", config=chat_config)
+    return chat
 
-response = chat.send_message('''cd /''', chat_config)
-print(response.text)
+def message(chat, message):
+    response = chat.send_message(message, chat_config)
+    return response
 
-response = chat.send_message('''ls -r /home
-gram''', chat_config)
-print(response.text)
 
-for message in chat.get_history():
-    print(f'role - {message.role}', end=": ")
-    print(message.parts[0].text)
+
+# response = chat.send_message('''cd /''', chat_config)
+# print(response.text)
+
+# response = chat.send_message('''ls -r /home
+# gram''', chat_config)
+# print(response.text)
+
+# for message in chat.get_history():
+#     print(f'role - {message.role}', end=": ")
+#     print(message.parts[0].text)
