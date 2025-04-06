@@ -1,0 +1,8 @@
+bin
+__pycache__
+{virtualenv_name}
+include
+lib
+lib64
+api_key.txt
+pyvenv.cfg
