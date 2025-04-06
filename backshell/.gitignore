@@ -1,12 +1,8 @@
-# Ignore everything
-*
-
-# Except Python files
-!*.py
-
-# Except .gitignore
-!.gitignore
-
-# Except requirements.txt
-!requirements.txt
-!systemprompt.txt
+bin
+__pycache__
+{virtualenv_name}
+include
+lib
+lib64
+api_key.txt
+pyvenv.cfg
