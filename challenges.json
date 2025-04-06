@@ -2,32 +2,32 @@
 {
     "id": 1,
     "name": "Basic: ls recurse",
-    "description": "List the contents of the home directory recursively using the `ls` command. Optimal solution without `cd` is preferred but any solution that works is acceptable.",
+    "description": "List the contents of the home directory recursively using the `ls` command. Optimal solution without `cd` is preferred but any solution that works is acceptable."
 
 },
 
 {
     "id": 2,
     "name": "Basic: wildcard and redirect",
-    "description": "Print the contents of all the files in the current directory using a single command. Write the `stdout` to a file named `out.txt`.",
+    "description": "Print the contents of all the files in the current directory using a single command. Write the `stdout` to a file named `out.txt` and print it to the terminal at the same time."
 },
 
 {
     "id": 3,
     "name": "Intermediate: 5 biggest data hogs",
-    "description": "Run `du` and get the 5 biggest data hogs in the user's home directory using piping, `sort` and `head`.",
+    "description": "Run `du` and get the 5 biggest data hogs in the user's home directory using piping, `sort` and `head`."
 },
 
 {
     "id": 4,
     "name": "Intermediate: find and replace",
-    "description": "Replace all occurrences of `foo` with `bar` in `foo.txt` using `sed`.",
+    "description": "Replace all occurrences of `foo` with `bar` in `foo.txt` using `sed`."
 },
 
 {
     "id": 5,
     "name": "Advanced: word count",
-    "description": "Count the number of words in `file.txt` *without* using `wc`. You can use any other command you like. Sort in decreasing order.",    
+    "description": "Count the number of words in `file.txt` *without* using `wc`. You can use any other command you like. Sort in decreasing order."
 }
 ]
 

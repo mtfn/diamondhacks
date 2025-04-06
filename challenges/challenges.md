@@ -2,9 +2,9 @@
 List the contents of the home directory recursively using the `ls` command.
 Optimal solution without `cd` is preferred but any solution that works is acceptable.
 
-# Basic: wildcard and redirect
+# Basic: wildcard and tee
 Print the contents of all the files in the current directory using a single command.
-Write the `stdout` to a file named `out.txt`.
+Write the `stdout` to a file named `out.txt` and print it to the terminal at the same time.
 
 # Intermediate: 5 biggest data hogs
 Run `du` and get the 5 biggest data hogs in the user's home directory using piping,

@@ -1,0 +1,5 @@
+1000	/home/appuser/:.txt
+900	/home/appuser/9.txt
+800	/home/appuser/8.txt
+700	/home/appuser/7.txt
+600	/home/appuser/6.txt

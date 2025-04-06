@@ -48,7 +48,7 @@ void two() {
 
     for (int i = 0; i < 20; i++) {
         name[0] = i + '1';
-        int out = open(name, O_CREAT | O_WRONLY, S_IRUSR | S_IWUSR);
+        int out = open(name, O_CREAT | O_WRONLY, 0644);
         copy_file_range(in, offset, out, NULL, 100, 0);
         close(out);
     }
@@ -86,7 +86,7 @@ void three() {
 void four() {
     chdir(USER);
     int in = open("/resources/foo.txt", O_RDONLY);
-    int out = open("foo.txt", O_CREAT | O_WRONLY, S_IRUSR | S_IWUSR);
+    int out = open("foo.txt", O_CREAT | O_WRONLY, 0777);
     copy_file_range(in, NULL, out, NULL, 81, 0);
     close(in);
     close(out);
@@ -97,7 +97,7 @@ void four() {
 void five() {
     chdir(USER);
     int in = open("/resources/wc.txt", O_RDONLY);
-    int out = open("file.txt", O_CREAT | O_WRONLY, S_IRUSR | S_IWUSR);
+    int out = open("file.txt", O_CREAT | O_WRONLY, 0644);
     copy_file_range(in, NULL, out, NULL, 131, 0);
     close(in);
     close(out);    
