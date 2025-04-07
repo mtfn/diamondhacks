@@ -122,11 +122,11 @@ def get_interaction(user_id):
 
 @app.route('/challenges', methods=['GET'])
 def get_challenges():
-    with open('../challenges/challenges.json', 'r') as f:
+    with open('challenges/challenges.json', 'r') as f:
         challenges = f.read()
     f.close()
     challenges = json.loads(challenges)
     return jsonify(challenges), 200
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host="0.0.0.0")

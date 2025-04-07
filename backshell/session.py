@@ -9,7 +9,7 @@ class Session():
         self.wd = '/home/appuser'
 
         self.solution = ''
-        with open('../challenges/' + str(challenge_set_id) + '.txt', 'r') as f:
+        with open('challenges/' + str(challenge_set_id) + '.txt', 'r') as f:
             self.solution = f.read()
         f.close()
 
